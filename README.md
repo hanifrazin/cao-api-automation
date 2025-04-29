@@ -21,5 +21,3 @@
 	 ```
      npx mocha tests/e2e-booker.spec.js 
      ```
- 5. You can see result like this 
-    ![image](https://drive.google.com/file/d/1NnRx2NeXI0pUDe1InGsWTKdMzYgopoxw/view?usp=sharing)
