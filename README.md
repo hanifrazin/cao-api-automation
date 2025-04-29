@@ -1,5 +1,8 @@
 # Tugas 2 - API Automation
 
+ ### Reference API docs
+ [Restful Booker docs](https://restful-booker.herokuapp.com/apidoc/index.html)
+
 ### Requirement Dependencies
  1. supertest
  1. mocha
@@ -9,7 +12,6 @@
 
 ### How to Run the Code
 
- 1. Open the [Restful Booker docs](https://restful-booker.herokuapp.com/apidoc/index.html)
  1. Clone [this repo](https://github.com/hanifrazin/cao-api-automation) to your local
  2. Open the project using Visual Studio Code
  1. Create a .env file on it project and input the data as follows
