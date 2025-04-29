@@ -12,18 +12,19 @@ const base_url = process.env.API_BASE_URL;
 const header = require('./../data/header-data.json');
 const payloadCreateBooking = require('./../data/body-data.json');
 let bookingID = 0;
+let newToken = 0;
 
 describe('E2E Automation API Restfull Booker', function() {
     this.timeout(10000);
     
-    it('Generate Token', async() => {
+    it('Generate Token with Hit API auth', async() => {
         const credential_data = {
             "username": process.env.API_USERNAME,
             "password": process.env.API_PASSWORD
         }
         const res = await request(base_url).post('/auth').send(credential_data).set(header);
         expect(res.status).to.equal(200);
-        const newToken = res.body.token;
+        newToken = res.body.token;
         
         const envPath = path.resolve(__dirname, './../.env');
         let envContent = fs.readFileSync(envPath, 'utf8');
@@ -33,7 +34,7 @@ describe('E2E Automation API Restfull Booker', function() {
         fs.writeFileSync(envPath, newEnvContent, 'utf8');
     });
     
-    it('Create Booking', async() => {
+    it('Create Booking with Hit API createBooking', async() => {
         payloadCreateBooking.firstname = customFaker.person.firstName();
         payloadCreateBooking.lastname = customFaker.person.lastName();
 
@@ -45,15 +46,17 @@ describe('E2E Automation API Restfull Booker', function() {
         expect(jsonData).to.deep.equal(payloadCreateBooking)
     });
 
-    it('Get Booking ID',async() => {
+    it('Get Booking ID with Hit API getBooking',async() => {
         const res = await request(base_url).get(`/booking/${bookingID}`).set(header)
         
         expect(res.status).to.equal(200)
         expect(res.body).to.deep.equal(payloadCreateBooking)
-    })
-
-    it('Get All Bookings Data', async() => {
-        const res = await request(base_url).get('/booking');
-        expect(res.status).to.equal(200);
     });
+
+    it('Delete Booking Data with Hit API deleteBooking',async() => {
+        const headerDelete = {...header}
+        headerDelete.Cookie = `token=${newToken}`
+        const res = await request(base_url).delete(`/booking/${bookingID}`).set(headerDelete)
+        expect(res.status).to.equal(201)
+    })
 })
